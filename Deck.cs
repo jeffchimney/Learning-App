@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class Deck : MonoBehaviour
 {
-    List <int> cards;
+    List<int> cards;
 
-    //public method to iterate through deck of cards
     public IEnumerable<int> GetCards()
     {
         foreach (int i in cards)
@@ -15,41 +14,38 @@ public class Deck : MonoBehaviour
         }
     }
 
+    /*Method to Shuffle the deck of cards*/
     public void Shuffle()
     {
         if (cards == null)
         {
             cards = new List<int>();
-
         }
         else
         {
-            cards.Clear(); // clear everything from the deck
+            cards.Clear();
         }
 
-        for(int i = 0; i<52; i++)
+        for (int i = 0; i < 26; i++)
         {
             cards.Add(i);
         }
 
-        int cursor = cards.Count; //cursor through array
-        while(cursor > 1)
+        int n = cards.Count;
+        while (n > 1)
         {
-            //Shuffle the deck randomly
-            cursor--;
-            int r = Random.Range(0, cursor + 1);
-            int temp = cards[r];
-            cards[r] = cards[cursor];
-            cards[cursor] = temp;
-            
+            n--;
+            int k = Random.Range(0, n + 1);
+            int temp = cards[k];
+            cards[k] = cards[n];
+            cards[n] = temp;
         }
     }
-    // Use this for initialization
-    void Start()
+
+	void Start () 
     {
-        Shuffle();
-    }
+        Shuffle(); //shuffle cards on start
+	}
 
     void Update() { }
 }
-	
