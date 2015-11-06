@@ -12,7 +12,6 @@ public class ButtonModel : MonoBehaviour {
     public Texture[] cardBacks;
     public bool[] buttons;
     
-   
 
     /*Render the Sprites that will be provided into the cardBacks array*/
     void Awake()
