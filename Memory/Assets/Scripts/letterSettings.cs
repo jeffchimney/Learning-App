@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/***********************************************************************************************************************/
+// NOTES TO SELF: things that need fixing:
+// 1) store the user choice only once, right now if they click on a letter twice it will load into prefs for multiples.
+// 2) maintain "bolded" images of letters that are chosen on destroying the scene
+/**********************************************************************************************************************/
+
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,9 +22,8 @@ public class letterSettings : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-      
-        PlayerPrefs.Save();
         createLetters();
+        //print(PlayerPrefs.GetInt("letter1"));
 	}
 
     
@@ -86,5 +92,9 @@ public class letterSettings : MonoBehaviour {
 
         PlayerPrefs.Save(); // needs work
        
+    }
+
+    void OnDestroy(){
+        saveUserPreferences();
     }
 }

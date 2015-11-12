@@ -13,12 +13,16 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
     [SerializeField] private cardBack originalCard; // reference for the card in the scene
     [SerializeField] private cardBack originalCard2;
+
+
     [SerializeField] private Sprite[] letters; // array for the sprites assets to be added
     [SerializeField] private Sprite[] pictureCues;
     [SerializeField] private AudioClip[] soundClips;
     [SerializeField] private AudioClip[] congratulations;
     [SerializeField] private AudioClip openingMessage;
-
+    private List<Sprite> userChoicePictures = new List<Sprite>(); // this will hold the id of the chosen letters to be shown in the game
+    private List<Sprite> userChoiceLetters = new List <Sprite>();
+    private List<AudioClip> userChoiceSounds = new List<AudioClip>();
     private letterSettings userSettings; // create an instance of letterSettings so we can retrieve the list of id's to be added
         
     public int gridRows = 3; // value for how many grid spaces to make + how far apart to place them
@@ -40,11 +44,29 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        getUserChoices();
         userSettings = GetComponent<letterSettings>();
         createLetters();
         createPictures();
         playAudio = GetComponent<AudioSource>();
         playAudio.PlayOneShot(openingMessage);
+    }
+
+    public void getUserChoices()
+    {
+        for (int i = 0; i <= 25; i++)// iterate through the alphabet
+        {
+            int letterId = PlayerPrefs.GetInt("letter" + i);
+            if(letterId != 0) // index will correspond to the users choice, if it is set to zero, they have not picked that letter
+            {
+                // Store these choices into lists so we can position them on screen
+                userChoiceSounds.Add(soundClips[letterId]);
+                userChoiceLetters.Add(letters[letterId]);
+                userChoicePictures.Add(pictureCues[letterId]);
+              
+            }
+        }
+        
     }
 
     // Method to create the letter cards and position them on screen.
@@ -56,7 +78,7 @@ public class GameController : MonoBehaviour {
         Vector3 startPos = originalCard2.transform.position; // position of the first card, all cards will be offset from here
        
         int index = 0;
-        for (int i = 0; i < letters.Length; i++)
+        for (int i = 0; i < userChoiceLetters.Count; i++)
         {
             cardBack letterCard; // hold either the original card, or the copies created in the inspector
 
@@ -70,7 +92,7 @@ public class GameController : MonoBehaviour {
             }
 
 
-            letterCard.setCard(letters[index], i, letterType, soundClips[i]);
+            letterCard.setCard(userChoiceLetters[index], i, letterType, userChoiceSounds[i]);
 
 
            float posX = startPos.x + (i % gridCols) * offsetX;
@@ -95,7 +117,7 @@ public class GameController : MonoBehaviour {
         Vector3 startPos = originalCard.transform.position; // position of the first card, all cards will be offset from here
 
         int index = 0;
-        for (int i = 0; i < pictureCues.Length; i++)
+        for (int i = 0; i < userChoicePictures.Count; i++)
         {
             cardBack pictureCard; // hold either the original card, or the copies created in the inspector
 
@@ -109,7 +131,7 @@ public class GameController : MonoBehaviour {
             }
 
 
-            pictureCard.setCard(pictureCues[index], i, pictureType, soundClips[i]);
+            pictureCard.setCard(userChoicePictures[index], i, pictureType, userChoiceSounds[i]);
 
 
 
