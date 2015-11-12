@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] private Sprite[] letters; // array for the sprites assets to be added
     [SerializeField] private Sprite[] pictureCues;
     [SerializeField] private AudioClip[] soundClips;
+    [SerializeField] private AudioClip[] congratulations;
+    [SerializeField] private AudioClip openingMessage;
 
     private letterSettings userSettings; // create an instance of letterSettings so we can retrieve the list of id's to be added
         
@@ -42,6 +44,7 @@ public class GameController : MonoBehaviour {
         createLetters();
         createPictures();
         playAudio = GetComponent<AudioSource>();
+        playAudio.PlayOneShot(openingMessage);
     }
 
     // Method to create the letter cards and position them on screen.
@@ -184,6 +187,8 @@ public class GameController : MonoBehaviour {
     {
         if (firstReveal.getId() == secondReveal.getId())
         {
+            int playThisOne = Random.Range(0, congratulations.Length); // randomize the sounds played each time
+            playAudio.PlayOneShot(congratulations[playThisOne]);
             score++;
             Debug.Log("Score: " + score);
             
