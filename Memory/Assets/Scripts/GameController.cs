@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /***********************************************************************/
 // NOTES TO SELF: things that need fixing:
@@ -15,7 +16,8 @@ public class GameController : MonoBehaviour {
     [SerializeField] private Sprite[] letters; // array for the sprites assets to be added
     [SerializeField] private Sprite[] pictureCues;
     [SerializeField] private AudioClip[] soundClips;
-    
+
+    private letterSettings userSettings; // create an instance of letterSettings so we can retrieve the list of id's to be added
         
     public int gridRows = 3; // value for how many grid spaces to make + how far apart to place them
     public int gridCols = 4;
@@ -36,6 +38,7 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        userSettings = GetComponent<letterSettings>();
         createLetters();
         createPictures();
         playAudio = GetComponent<AudioSource>();
@@ -48,8 +51,7 @@ public class GameController : MonoBehaviour {
     public void createLetters()
     {
         Vector3 startPos = originalCard2.transform.position; // position of the first card, all cards will be offset from here
-        int[] nums = { 0, 0, 1, 1, 2, 2, 3, 3};
-        nums = ShuffleNumbers(nums);
+       
         int index = 0;
         for (int i = 0; i < letters.Length; i++)
         {
@@ -151,6 +153,7 @@ public class GameController : MonoBehaviour {
         
         if (firstReveal == null)
         {
+            print(PlayerPrefs.GetInt("letter").ToString());
             firstReveal = card; // set the first card as the first chosen by user
             //Debug.Log("Id =" + firstReveal.getType());
             playAudio.PlayOneShot(firstReveal.getClip()); // play sound once user has decided to choose a card
