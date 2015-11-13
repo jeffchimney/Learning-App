@@ -1,7 +1,7 @@
 ﻿/***********************************************************************************************************************/
-// NOTES TO SELF: things that need fixing:
-// 1) store the user choice only once, right now if they click on a letter twice it will load into prefs for multiples.
+// NOTES TO SELF: things that need fixing
 // 2) maintain "bolded" images of letters that are chosen on destroying the scene
+// 3) "add all" button
 /**********************************************************************************************************************/
 
 
@@ -13,7 +13,7 @@ public class letterSettings : MonoBehaviour {
 
     [SerializeField] private Sprite[] letters; // array for the sprites assets to be added
     [SerializeField] private settingsMouse originalCard; // reference for the card in the scene
-
+    static bool isEmpty = false; // boolean to check if the user selections list is empty
     public int gridRows = 3; // value for how many grid spaces to make + how far apart to place them
     public int gridCols = 4;
     public float offsetX = 1.5f;
@@ -22,9 +22,17 @@ public class letterSettings : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+       
         createLetters();
+        
         //print(PlayerPrefs.GetInt("letter1"));
+        print("userchoices size: " + userChoices.Count);
 	}
+
+    public int getListSize()
+    {
+        return userChoices.Count;
+    }
 
     
 
@@ -75,10 +83,22 @@ public class letterSettings : MonoBehaviour {
 
     public void lettersChosen(settingsMouse letter)
     {
+        
         if (!userChoices.Contains(letter.getId()))
+        {
             userChoices.Add(letter.getId());
-        else
-            print("u alrdy chose this letter"); // this needs work, on a reclick, maybe remove the letter from the list. 
+            isEmpty = false;
+        }
+        else if (userChoices.Contains(letter.getId()))
+        {
+            userChoices.Remove(letter.getId());
+        }
+        else if (userChoices.Count == 0)
+        {
+            isEmpty = true; // this variable will be passed into the playbutton screen, if it is set to true, do not allow the user to continue to the game screen
+        }
+      
+            
     }
 
     public void saveUserPreferences()
@@ -86,6 +106,7 @@ public class letterSettings : MonoBehaviour {
         int i = 0;
         foreach (int id in userChoices)
         {
+            print(id);
             PlayerPrefs.SetInt("letter" + i, id);
             i++;
         }
@@ -97,4 +118,14 @@ public class letterSettings : MonoBehaviour {
     void OnDestroy(){
         saveUserPreferences();
     }
+
+    public bool getIsEmpty()
+    {
+        return isEmpty;
+    }
+
+    public void setIsEmpty(bool input)
+   {
+        isEmpty = input;
+   }
 }

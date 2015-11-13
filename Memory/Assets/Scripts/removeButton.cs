@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class playButton : MonoBehaviour
-{
+public class removeButton : MonoBehaviour {
+
     [SerializeField]
     private GameObject targetObject;
     [SerializeField]
     private string targetMessage;
     public Color highlightColor = Color.cyan;
-    [SerializeField] private letterSettings checkEmpty; // create an instance of letterSettings so we can retrieve the list of id's to be added
+    public bool hasRemoved = false;
+    [SerializeField] private letterSettings settings;
 
-    void Awake()
+
+    void Start()
     {
-        checkEmpty = checkEmpty.GetComponent<letterSettings>();
+        settings = settings.GetComponent<letterSettings>();
     }
 
     public void OnMouseEnter()
     {
-        
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         if (sprite != null)
         {
@@ -33,28 +34,22 @@ public class playButton : MonoBehaviour
         }
     }
 
+    //This button will clear all of the current user choices for the letters
     public void OnMouseDown()
     {
-        print(checkEmpty.getIsEmpty());
-
-        if (checkEmpty.getIsEmpty() == false)
-        {
-            Application.LoadLevel("Game");
-            transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
-        }
-        else
-            print("pick some letters before starting");
-       
-        
+        settings.setIsEmpty(true); // set is empty to true to correspond with an empty list of user choices
+        PlayerPrefs.DeleteAll();
+        hasRemoved = true;
+        //print(PlayerPrefs.GetInt("letter1"));
+        transform.localScale = new Vector3(0.30f, 0.30f, 0.30f);
     }
+
     public void OnMouseUp()
     {
-        transform.localScale = Vector3.one;
+        transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
         if (targetObject != null)
         {
             targetObject.SendMessage(targetMessage);
         }
     }
 }
-
-
