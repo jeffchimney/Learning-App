@@ -19,14 +19,13 @@ public class letterSettings : MonoBehaviour {
     public float offsetX = 1.5f;
     public float offsetY = 4f;
     static List<int> userChoices = new List<int>(); // a list to store the id's of the letters in which they have chosen, will somehow need to pass this into the game scene. 
-
+	
     // Use this for initialization
     void Start () {
-       
         createLetters();
         
         //print(PlayerPrefs.GetInt("letter1"));
-        print("userchoices size: " + userChoices.Count);
+        //print("userchoices size: " + userChoices.Count);
 	}
 
     public int getListSize()
@@ -82,8 +81,8 @@ public class letterSettings : MonoBehaviour {
     }
 
     public void lettersChosen(settingsMouse letter)
-    {
-        
+	{
+
         if (!userChoices.Contains(letter.getId()))
         {
             userChoices.Add(letter.getId());
@@ -104,19 +103,30 @@ public class letterSettings : MonoBehaviour {
     public void saveUserPreferences()
     {
         int i = 0;
+
         foreach (int id in userChoices)
         {
-            print(id);
-            PlayerPrefs.SetInt("letter" + i, id);
+                //print("My Current Ids Chosen: " + id);
+                PlayerPrefs.SetInt("letter" + i, id);
+            
             i++;
         }
+		// Set the remaining choices to -1 so we know which ones to include when we pass them through to the next scene
+		//-1 will mean that there is still space left for these letters to be chosen
+		for (int numChoices = userChoices.Count; numChoices <= 25; numChoices++) {
+			PlayerPrefs.SetInt ("letter" + numChoices, -1);
+		}
 
         PlayerPrefs.Save(); // needs work
        
     }
 
+
     void OnDestroy(){
-        saveUserPreferences();
+		/*foreach (int i in userChoices) {
+			print ("My Current Ids: " + i);
+		}*/
+        	saveUserPreferences();
     }
 
     public bool getIsEmpty()

@@ -60,7 +60,7 @@ public class cardBack : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        if (card.activeSelf && controller.canChoose())
+        if (card.activeSelf && controller.isAllowed() == true)
         {
             //print("i am bein clicked");
             
@@ -68,6 +68,7 @@ public class cardBack : MonoBehaviour {
             controller.cardChosen(this);
            
         }
+       
     }
 
     //Method to hide the card again

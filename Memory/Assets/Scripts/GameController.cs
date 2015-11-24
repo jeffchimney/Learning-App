@@ -7,7 +7,6 @@ using System.Collections.Generic;
 // 1) only allow a user to choose a picture as their first card choice
 // 2) Button that will take you to the settings screen
 // 3) center the bottom cards if row != 6 cards
-// 4) Shuffle method
 /*********************************************************************/
 
 public class GameController : MonoBehaviour {
@@ -23,6 +22,8 @@ public class GameController : MonoBehaviour {
     private List<Sprite> userChoicePictures = new List<Sprite>(); // this will hold the id of the chosen letters to be shown in the game
     private List<Sprite> userChoiceLetters = new List <Sprite>();
     private List<AudioClip> userChoiceSounds = new List<AudioClip>();
+	private List<cardBack> chosenPics = new List<cardBack> ();
+	private List<cardBack> chosenLets = new List<cardBack>();
     [SerializeField] private letterSettings userSettings; // create an instance of letterSettings so we can retrieve the list of id's to be added
     
     // Values used for positioning
@@ -36,6 +37,7 @@ public class GameController : MonoBehaviour {
 
     private cardBack firstReveal; // store the first card clicked
     private cardBack secondReveal; // store the second card clicked
+    static bool allow = true; // boolean to store whether or not a user is allowed to pick the card they have chosen (ex, not allowed to pick a letter card first)
 
     private int score = 0; // using to debug for now, maybe later use to check if score == userChoices.Length then they have won the game.. show animation
 
@@ -45,35 +47,36 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        print("this is letter a: " + PlayerPrefs.GetInt("letter0"));
-        print("This is letter b:" + PlayerPrefs.GetInt("letter1"));
-        print("list size: " + userSettings.getListSize());
+		//print ("Test -1 setting: " + PlayerPrefs.GetInt ("letter20"));
+        //print("list size: " + userSettings.getListSize());
         getUserChoices();
         userSettings = GetComponent<letterSettings>();
         createLetters();
         createPictures();
         playAudio = GetComponent<AudioSource>();
         playAudio.PlayOneShot(openingMessage); // "have fun finding the letters + pic cues that match"
+		ShufflePictures(chosenPics, chosenLets);
     }
+
+
 
     // This method will extract the ids of each letter from the PlayerPrefs, and store into a list to be used for displaying their choices
     public void getUserChoices()
     {
-        for (int i = 0; i <= 25; i++)
-        {
-            int letterId = PlayerPrefs.GetInt("letter" + i);
-
-            if (letterId != 0)
-            {
-                // Store these choices into lists so we can position them on screen
-                userChoiceSounds.Add(soundClips[letterId]);
-                userChoiceLetters.Add(letters[letterId]);
-                userChoicePictures.Add(pictureCues[letterId]);
-            }
-            
-        }
+        for (int i = 0; i <= 25; i++) {
+			int letterId = PlayerPrefs.GetInt ("letter" + i);
+			//print ("Curr Letters" + letterId.ToString ());
+			if (letterId != -1) {
+				// Store these choices into lists so we can position them on screen
+				userChoiceSounds.Add (soundClips [letterId]);
+				userChoiceLetters.Add (letters [letterId]);
+				userChoicePictures.Add (pictureCues [letterId]);
+                       
+			}
+		}
         
     }
+
 
     // Method to create the letter cards and position them on screen.
     // This method will instantiate cardBack object, and from that create clones to avoid hardcoding each card in the letter array.
@@ -81,8 +84,7 @@ public class GameController : MonoBehaviour {
     // This might have to be changed later depending on how we choose to shuffle the cards. 
     public void createLetters()
     {
-        Vector3 startPos = originalCard2.transform.position; // position of the first card, all cards will be offset from here
-        //ShuffleNumbers(userChoiceLetters);
+        //Vector3 startPos = originalCard2.transform.position; // position of the first card, all cards will be offset from here
       
         for (int i = 0; i < userChoiceLetters.Count; i++)
         {
@@ -98,18 +100,21 @@ public class GameController : MonoBehaviour {
             }
 
 
-            letterCard.setCard(userChoiceLetters[i], i, letterType, userChoiceSounds[i]);
+           letterCard.setCard(userChoiceLetters[i], i, letterType, userChoiceSounds[i]);
+		   chosenLets.Add(letterCard); // add all of the letter cards to a list to maintain the id.  Shuffle these. 
 
-
-           float posX = startPos.x + (i % gridCols) * offsetX;
-           float posY = startPos.y + (int)Mathf.Floor((float) i/ gridCols) * -offsetY;
-           letterCard.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
+           //float posX = startPos.x + ((i) % gridCols) * offsetX;
+           //float posY = startPos.y + (int)Mathf.Floor((float) (i)/ gridCols) * -offsetY;
+           //letterCard.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
 
        
 
             //checking ids
             //print("letter " + i + " id = " + letterCard.getId());
         }
+
+		//ShuffleNumbers(chosenLets);
+
 
 
     }
@@ -120,9 +125,7 @@ public class GameController : MonoBehaviour {
     // This might have to be changed later depending on how we choose to shuffle the cards. 
     public void createPictures()
     {
-        Vector3 startPos = originalCard.transform.position; // position of the first card, all cards will be offset from here
-       // ShuffleNumbers(userChoicePictures);
-
+        //Vector3 startPos = originalCard.transform.position; // position of the first card, all cards will be offset from here
 
         for (int i = 0; i < userChoicePictures.Count; i++)
         {
@@ -139,17 +142,19 @@ public class GameController : MonoBehaviour {
 
 
             pictureCard.setCard(userChoicePictures[i], i, pictureType, userChoiceSounds[i]);
+			chosenPics.Add (pictureCard); // add all of the picture cards to an array to maintain ids.  Shuffle these. 
 
-
-
-            float posX = startPos.x + (i % gridCols) * offsetX;
-            float posY = startPos.y + (int)Mathf.Floor((float)i / gridCols) * -offsetY;
-            pictureCard.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
+            //float posX = startPos.x + ((i) % gridCols) * offsetX;
+            //float posY = startPos.y + (int)Mathf.Floor((float)(i) / gridCols) * -offsetY;
+            //pictureCard.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
             
 
             //checking ids
             print("picture " + i + " id = " + pictureCard.getId());
         }
+
+		//ShuffleNumbers(chosenPics);
+
 
     }
 
@@ -175,12 +180,12 @@ public class GameController : MonoBehaviour {
             return true;
         }
         else
-            return false;   
+            return false;
     }
 
     public void cardChosen(cardBack card)
     {
-        
+
         if (firstReveal == null)
         {
             print(PlayerPrefs.GetInt("letter").ToString());
@@ -200,14 +205,13 @@ public class GameController : MonoBehaviour {
     // This needs work
     private IEnumerator checkCardType()
     {
-        if(firstReveal.getType() != pictureType)
-        {
+       
             yield return new WaitForSeconds(.5f);
             firstReveal.Unreveal();
-           
-        }
+               
         firstReveal = null;
-        secondReveal = null;      
+        secondReveal = null;
+        allow = true;    
     }
 
     private IEnumerator checkIDs()
@@ -234,18 +238,39 @@ public class GameController : MonoBehaviour {
     }
 
 
-    // Reminder to work on this once rest of game is running smooth
-    private List<Sprite> ShuffleNumbers(List<Sprite> input)
+    // This method will be used to shuffle the picture cards and place them appropriately into the scene. 
+    private void ShufflePictures(List<cardBack> inputPictures, List<cardBack> inputLetters)
     {
-        int n = input.Count;
-        while (n > 1)
+		Vector3 startPosPictures = originalCard.transform.position; // position of the first card, all cards will be offset from here
+		Vector3 startPosLetters = originalCard2.transform.position;
+        int n = inputPictures.Count;
+        while (n >= 1)
         {
             n--;
+			// create random values to shuffle the letters by
             int k = Random.Range(0, n + 1);
-            Sprite temp = input[k];
-            input[k] = input[n];
-            input[n] = temp;
-        }
+			int l = Random.Range (0, n + 1);
+            cardBack temp = inputLetters[k];
+			cardBack temp2 = inputPictures[l];
+
+            inputLetters[k] = inputLetters[n];
+            inputLetters[n] = temp;
+			inputPictures[l] = inputPictures[n];
+			inputPictures[n] = temp2;
+		}
+
+		for (int i = 0; i < inputPictures.Count; i ++) {
+			float posXX = startPosPictures.x + ((i) % gridCols) * offsetX;
+			float posYY = startPosPictures.y + (int)Mathf.Floor((float)(i) / gridCols) * -offsetY;
+			inputPictures[i].transform.position = new Vector3(posXX, posYY, startPosPictures.z); // create a new position based on this offset for the newly instatiated card
+		}
+
+		for(int j = 0; j < inputLetters.Count; j++){
+			float posX = startPosLetters.x + (j % gridCols) * offsetX;
+			float posY = startPosLetters.y + (int)Mathf.Floor((float)(j) / gridCols) * -offsetY; 
+			inputLetters[j].transform.position = new Vector3(posX, posY, startPosLetters.z);
+		}
+
         /*int[] array = input.Clone() as int[];
         for (int i = 0; i < array.Length; i++)
         {
@@ -254,7 +279,12 @@ public class GameController : MonoBehaviour {
             array[i] = array[r];
             array[r] = temp;
         }*/
-        return input;
+    }
+
+    // getter method to return the value of whether or not a user is allowed to pick the chosen card. This will be passed through to the "on mouse down" method in cardBack.cs
+    public bool isAllowed()
+    {
+        return allow;
     }
     
 	
