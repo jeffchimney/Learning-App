@@ -14,10 +14,13 @@ public class letterSettings : MonoBehaviour {
     [SerializeField] private Sprite[] letters; // array for the sprites assets to be added
     [SerializeField] private settingsMouse originalCard; // reference for the card in the scene
     static bool isEmpty = false; // boolean to check if the user selections list is empty
+	static bool alreadyChosen = false;
     public int gridRows = 3; // value for how many grid spaces to make + how far apart to place them
     public int gridCols = 4;
     public float offsetX = 1.5f;
     public float offsetY = 4f;
+	private SpriteRenderer sprite;
+	public List<settingsMouse> allChoices = new List<settingsMouse>();
     static List<int> userChoices = new List<int>(); // a list to store the id's of the letters in which they have chosen, will somehow need to pass this into the game scene. 
     // Use this for initialization
 
@@ -25,6 +28,9 @@ public class letterSettings : MonoBehaviour {
         createLetters();
         print("here is letter1: " + PlayerPrefs.GetInt("letter1"));
         //print("userchoices size: " + userChoices.Count);
+		foreach (int id in userChoices) {
+			print (id);
+		}
 	}
 
     public int getListSize()
@@ -34,8 +40,23 @@ public class letterSettings : MonoBehaviour {
 
     
 
+	public void letterAppearance(settingsMouse thisLetter){
+		for (int i = 0; i <= 25; i++) {
+			int letterId = PlayerPrefs.GetInt ("letter" + i);
+			//print ("Curr Letters" + letterId.ToString ());
+			if (letterId == thisLetter.getId ()) {
+				//GetComponent<SpriteRenderer>().sprite = letters[thisLetter.getId ()];
+				//sprite.color = Color.grey;
+				thisLetter.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+			}
+		}
+
+
+	}
+
     public void createLetters()
     {
+
         Vector3 startPos = originalCard.transform.position; // position of the first card, all cards will be offset from here
        
         int index = 0;
@@ -55,6 +76,7 @@ public class letterSettings : MonoBehaviour {
 
             //setLetter from the settingsMouse class, using the sprites provides and creating an id based on the i-iteration
             letter.setLetter(letters[index], i);
+			allChoices.Add(letter); // add all of the letters into a list 
 			//print("My Curr Choices: " + theseLetters[i]);
 
             float posX = startPos.x + (i % gridCols) * offsetX;
@@ -70,7 +92,7 @@ public class letterSettings : MonoBehaviour {
             }
 
             letter.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
-
+			letterAppearance (letter); // call the letterAppearance helper method to change how the letter is displayed if a user has already chosen it
             index++;
 
             
@@ -78,7 +100,12 @@ public class letterSettings : MonoBehaviour {
 
     }
 
-
+	public void onAllRemove(){
+		foreach (settingsMouse card in allChoices) {
+			card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			PlayerPrefs.DeleteAll();
+		}
+	}
 
 
     public void lettersChosen(settingsMouse letter)
@@ -88,9 +115,12 @@ public class letterSettings : MonoBehaviour {
         {
             userChoices.Add(letter.getId());
             isEmpty = false;
+			alreadyChosen = false;
         }
         else if (userChoices.Contains(letter.getId()))
         {
+			alreadyChosen = true;
+			PlayerPrefs.DeleteKey ("letter" + letter.getId ());
             userChoices.Remove(letter.getId());
         }
         else if (userChoices.Count == 0)
@@ -122,10 +152,21 @@ public class letterSettings : MonoBehaviour {
        
     }
 
+	// getter method to return whether or not a user already has this letter they have selected
+	public bool hasAlready(){
+		return alreadyChosen;
+	}
+
+	// public method to use in the settings mouse script
+	public void setHasAlready(){
+		alreadyChosen = false;
+	}
+
 
     void OnDestroy(){
         	saveUserPreferences();
     }
+
 
     public bool getIsEmpty()
     {

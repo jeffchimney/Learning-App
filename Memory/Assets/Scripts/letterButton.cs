@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class letterButton : MonoBehaviour {
-	public Color highlightColor = Color.grey;
+	public Color highlight = Color.grey;
 
 	public void OnMouseEnter()
 	{
@@ -10,9 +10,10 @@ public class letterButton : MonoBehaviour {
 		SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 		if (sprite != null)
 		{
-			sprite.color = highlightColor;
+			sprite.color = highlight;
 		}
 	}
+
 	public void OnMouseExit()
 	{
 		SpriteRenderer sprite = GetComponent<SpriteRenderer>();

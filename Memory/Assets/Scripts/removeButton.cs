@@ -38,10 +38,10 @@ public class removeButton : MonoBehaviour {
     public void OnMouseDown()
     {
         settings.setIsEmpty(true); // set is empty to true to correspond with an empty list of user choices
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         hasRemoved = true;
-        //print(PlayerPrefs.GetInt("letter1"));
         transform.localScale = new Vector3(0.30f, 0.30f, 0.30f);
+		settings.onAllRemove ();
     }
 
     public void OnMouseUp()
@@ -52,4 +52,12 @@ public class removeButton : MonoBehaviour {
             targetObject.SendMessage(targetMessage);
         }
     }
+
+	// return the value of this bool to check if we need to transform the letters back to their original shape
+	public bool getHasRemoved(){
+		return hasRemoved;
+	}
+
+
+
 }
