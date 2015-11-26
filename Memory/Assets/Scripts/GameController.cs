@@ -150,7 +150,7 @@ public class GameController : MonoBehaviour {
             
 
             //checking ids
-            print("picture " + i + " id = " + pictureCard.getId());
+            //print("picture " + i + " id = " + pictureCard.getId());
         }
 
 		//ShuffleNumbers(chosenPics);
@@ -175,7 +175,7 @@ public class GameController : MonoBehaviour {
     // Method to determine whether or not a user still has one more card to pick
     public bool canChoose()
     {
-        if (getSecond() == null)
+        if (secondReveal == null)
         {
             return true;
         }
@@ -186,28 +186,27 @@ public class GameController : MonoBehaviour {
     public void cardChosen(cardBack card)
     {
 
-        if (firstReveal == null)
-        {
-            print(PlayerPrefs.GetInt("letter").ToString());
-            firstReveal = card; // set the first card as the first chosen by user
-            //Debug.Log("Id =" + firstReveal.getType());
-            playAudio.PlayOneShot(firstReveal.getClip()); // play sound once user has decided to choose a card
-        }
 
-        else
-        {
-            playAudio.Stop(); // stop the audio if a second card is being chosen right away
-            secondReveal = card; // if a first card has already been chose, set the secondReveal as the chosen card
-            StartCoroutine(checkIDs()); // begin coroutine of comparing id's between the card
-        }
+        if (firstReveal == null) {
+			print (PlayerPrefs.GetInt ("letter").ToString ());
+			firstReveal = card; // set the first card as the first chosen by user
+			Debug.Log ("Id =" + firstReveal.getType ());
+			playAudio.PlayOneShot (firstReveal.getClip ()); // play sound once user has decided to choose a card
+		} else if (firstReveal.getType () == pictureType) {
+			playAudio.Stop (); // stop the audio if a second card is being chosen right away
+			secondReveal = card; // if a first card has already been chose, set the secondReveal as the chosen card
+			StartCoroutine (checkIDs ()); // begin coroutine of comparing id's between the card
+		} else {
+			print ("srry you must chose a pic first");
+		}
     }
 
     // This needs work
     private IEnumerator checkCardType()
     {
        
-            yield return new WaitForSeconds(.5f);
-            firstReveal.Unreveal();
+        yield return new WaitForSeconds(.5f);
+        firstReveal.Unreveal();
                
         firstReveal = null;
         secondReveal = null;
@@ -271,21 +270,18 @@ public class GameController : MonoBehaviour {
 			inputLetters[j].transform.position = new Vector3(posX, posY, startPosLetters.z);
 		}
 
-        /*int[] array = input.Clone() as int[];
-        for (int i = 0; i < array.Length; i++)
-        {
-            int temp = array[i];
-            int r = Random.Range(i, array.Length);
-            array[i] = array[r];
-            array[r] = temp;
-        }*/
     }
+	
 
     // getter method to return the value of whether or not a user is allowed to pick the chosen card. This will be passed through to the "on mouse down" method in cardBack.cs
     public bool isAllowed()
     {
         return allow;
     }
+
+	void onDestroy(){
+		PlayerPrefs.Save ();
+	}
     
 	
 }

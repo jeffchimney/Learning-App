@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\cardBack.cs" />
      <Compile Include="Assets\Scripts\helpButton.cs" />
+     <Compile Include="Assets\Scripts\letterButton.cs" />
      <Compile Include="Assets\Scripts\letterSettings.cs" />
      <Compile Include="Assets\Scripts\playButton.cs" />
      <Compile Include="Assets\Scripts\removeButton.cs" />

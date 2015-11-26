@@ -8,7 +8,7 @@ using UnityEngine;
 using System.Collections;
 
 public class settingsMouse : MonoBehaviour {
-    
+	SpriteRenderer sprite;
     [SerializeField] private letterSettings settings;
     [SerializeField] private GameObject letter;
     private int id;
@@ -29,8 +29,7 @@ public class settingsMouse : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        
-        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+		sprite = GetComponent<SpriteRenderer>();
         // call the lettersChosen method from the letterSettings screen, the input will refer to the current button being clicked.
         settings.lettersChosen(this);
         
@@ -39,6 +38,8 @@ public class settingsMouse : MonoBehaviour {
         
        
     }
+
+
 
     public void setLetter(Sprite image, int letterId)
     {
