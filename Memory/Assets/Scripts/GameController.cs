@@ -260,11 +260,6 @@ public class GameController : MonoBehaviour {
 			float posXX = startPosPictures.x + ((i) % gridCols) * offsetX;
 			float posYY = startPosPictures.y + (int)Mathf.Floor((float)(i) / gridCols) * -offsetY;
 			inputPictures[i].transform.position = new Vector3(posXX, posYY, startPosPictures.z); // create a new position based on this offset for the newly instatiated card
-			if (inputPictures.Count - i < 6){
-				posXX = startPosPictures.x + ((i) % gridCols) * offsetX + 2;
-				posYY = startPosPictures.y + (int)Mathf.Floor((float)(i) / gridCols) * -offsetY;
-				inputPictures[i].transform.position = new Vector3(posXX, posYY, startPosPictures.z); // creat
-			}
 
 		}
 

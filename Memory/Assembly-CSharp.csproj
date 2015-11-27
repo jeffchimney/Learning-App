@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\letterSettings.cs" />
      <Compile Include="Assets\Scripts\playButton.cs" />
      <Compile Include="Assets\Scripts\removeButton.cs" />
+     <Compile Include="Assets\Scripts\selectAll.cs" />
      <Compile Include="Assets\Scripts\settingsMouse.cs" />
      <None Include="Assets\Sounds\replace phonics from here.txt" />
  <Reference Include="UnityEngine.UI">

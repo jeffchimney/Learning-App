@@ -100,11 +100,23 @@ public class letterSettings : MonoBehaviour {
 
     }
 
+	public void addAllLetters(){
+		int i = 0;
+		foreach (settingsMouse card in allChoices) {
+			card.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+			PlayerPrefs.SetInt ("letter" + card.getId (), card.getId ());
+			i++;
+		}
+		PlayerPrefs.Save (); // might need to remove this
+
+	}
+
 	public void onAllRemove(){
 		foreach (settingsMouse card in allChoices) {
 			card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			PlayerPrefs.DeleteAll();
 		}
+		PlayerPrefs.Save ();
 	}
 
 
@@ -164,6 +176,7 @@ public class letterSettings : MonoBehaviour {
 
 
     void OnDestroy(){
+			PlayerPrefs.Save ();
         	saveUserPreferences();
     }
 
