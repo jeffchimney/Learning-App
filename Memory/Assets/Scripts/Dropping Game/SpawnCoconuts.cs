@@ -24,7 +24,7 @@ public class SpawnCoconuts : MonoBehaviour {
 		id = inputId;
         clip = c;
 		GetComponent<SpriteRenderer>().sprite = image;
-		Debug.Log (this.ToString());
+		//Debug.Log (this.ToString());
 		return this;
 	}
 

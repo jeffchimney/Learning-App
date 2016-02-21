@@ -6,11 +6,16 @@ public class ImageController : MonoBehaviour {
     public Sprite[] gameImages; // instantiate an array of images as the current game picture
 	// Use this for initialization
 	void Start () {
-        randomizeImage();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Awake()
+    {
+        randomizeImage(); // call this on awake of the game to randomize the image being displayed
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 
