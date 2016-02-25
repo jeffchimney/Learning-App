@@ -47,8 +47,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Dropping Game\CatchController.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\CoconutDropper.cs" />
+     <Compile Include="Assets\Scripts\Dropping Game\DroppingOptions.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\GameImage.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\ImageController.cs" />
+     <Compile Include="Assets\Scripts\Dropping Game\PauseButton.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\SpawnCoconuts.cs" />
      <Compile Include="Assets\Scripts\Matching Game\GameController.cs" />
      <Compile Include="Assets\Scripts\Matching Game\cardBack.cs" />

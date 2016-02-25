@@ -6,9 +6,11 @@ public class CoconutDropper : MonoBehaviour {
 	[SerializeField] private SpawnCoconuts coconut; // hold the coconut prefab into this variable in the inspector
 	private SpawnCoconuts thisCoconut;
 	public Sprite [] coconutImages; // store all of the sprites to be instantiated into this array
-	[SerializeField] private AudioClip[] letterSounds; // store each letter sound
+	public AudioClip[] letterSounds; // store each letter sound
 	private List<SpawnCoconuts> allCoconuts = new List<SpawnCoconuts>();
     AudioSource playAudio;
+    private int rand;
+    private bool dropping = true;
 	int spawnMin = 2; // min time of dropper
 	int spawnMax = 5; // max time of dropper
 
@@ -22,15 +24,10 @@ public class CoconutDropper : MonoBehaviour {
 
 	void Start () {
         playAudio = GetComponent<AudioSource>();
-        createCoconuts ();
-		Spawn ();
 	}
 	
 	// Update is called once per frame, change the position of the dropper to varying x-values
 	void Update () {
-		Vector3 dropperPosition = this.transform.position; 
-		dropperPosition.x = Random.Range (-5, 10);
-		this.transform.position = dropperPosition;
 	}
 
 	// this method will be used to create the variety of letters that will be dropping, storing them into an array.
@@ -53,11 +50,37 @@ public class CoconutDropper : MonoBehaviour {
 
 	}
 
+    // find the random index being used
+    public int getRand()
+    {
+        return rand;
+    }
+
 	//Spawn method used to drop the coconuts randomly
-	void Spawn(){
-		int rand = Random.Range (0, allCoconuts.Count);
-        playAudio.PlayOneShot(letterSounds[rand]); // play the corresponding letter sound on drop
-        Instantiate(allCoconuts[rand], transform.position, Quaternion.identity);
-		Invoke("Spawn", Random.Range (spawnMin, spawnMax)); // after random time between min and max, respawn
+	public void Spawn(){
+        if (dropping == true)
+        {
+            rand = Random.Range(0, allCoconuts.Count);
+            //playAudio.PlayOneShot(letterSounds[rand]); // play the corresponding letter sound on drop
+            Instantiate(allCoconuts[rand], transform.position, Quaternion.identity);
+            Invoke("Spawn", Random.Range(spawnMin, spawnMax)); // after random time between min and max, respawn
+        }
 	}
+
+    public void positionDropper()
+    {
+        Vector3 dropperPosition = this.transform.position;
+        dropperPosition.x = Random.Range(-5, 10);
+        this.transform.position = dropperPosition;
+    }
+
+    public void setDropper(bool b)
+    {
+        dropping = b;
+    }
+
+    public void pauseDropper()
+    {
+        dropping = false;
+    }
 }

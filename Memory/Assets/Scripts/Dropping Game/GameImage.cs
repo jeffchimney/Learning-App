@@ -94,6 +94,30 @@ public class GameImage {
         return b;
     }
 
+
+    //Method to check if the spelling of the word is in the correct order
+    public bool correctOrder(GameImage[] g, string l)
+    {
+        bool b = false;
+        for (int i = 0; i < g.Length; i++) {
+            if (i != 0) // if we are not searching the first index, i-1 will still exist
+            {
+                if (g[i].getLetter().Equals(l) && g[i].getCheck() == false && g[i - 1].getCheck() == true) // check if the previous letter has already been caught, if so return true
+                {
+                    b = true;
+                }
+            }
+            else // otherwise, we are catching the first index
+                if (g[i].getLetter().Equals(l) && g[i].getCheck() == false)
+            {
+                b = true;
+            }
+        }
+
+
+        return b;
+    }
+
     // Call this method in Update in the CatchController class to determine whether or not the user has collected all of the letters required to make the word
     // If returned true, randomize a new image to be displayed
     public bool checkWinning(GameImage [] g)

@@ -112,7 +112,6 @@ public class GameController : MonoBehaviour {
            //float posX = startPos.x + ((i) % gridCols) * offsetX;
            //float posY = startPos.y + (int)Mathf.Floor((float) (i)/ gridCols) * -offsetY;
            //letterCard.transform.position = new Vector3(posX, posY, startPos.z); // create a new position based on this offset for the newly instatiated card
-
        
 
             //checking ids
@@ -274,6 +273,10 @@ public class GameController : MonoBehaviour {
 				posXX = startPosPictures.x + ((i) % gridCols) * offsetX/(1.2f);
 				posYY = startPosPictures.y + (int)Mathf.Floor((float)(i) / gridCols) * -offsetY/(1.2f);
 			}
+            if (inputPictures.Count % 5 != 0)
+            {
+                // work on this, change position of the last few cards if %5 != 0
+            }
 
 			inputPictures[i].transform.position = new Vector3(posXX, posYY, startPosPictures.z); // create a new position based on this offset for the newly instatiated card
 
