@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Dropping Game\CatchController.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\CoconutDropper.cs" />
+     <Compile Include="Assets\Scripts\Dropping Game\DragObject.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\DroppingOptions.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\GameImage.cs" />
      <Compile Include="Assets\Scripts\Dropping Game\ImageController.cs" />

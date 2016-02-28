@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class CatchController : MonoBehaviour
 {
@@ -103,7 +104,13 @@ public class CatchController : MonoBehaviour
                 startMessage = "Start";
                 setName(); // set the name of the current Image as it is being displayed on awake in ImageController script. (Will have to recall both functions once the user has spelt out the word)
                 createPairs();
-                playAudio.PlayOneShot(currImage.wordSounds[currImage.getIndex()]); // play the corresponding letter sound on drop
+                try {
+                    playAudio.PlayOneShot(currImage.wordSounds[currImage.getIndex()]); // play the corresponding letter sound on drop
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Debug.Log("still need to get these sounds");
+                }
                 dropper.createCoconuts(); // create + spawn coconuts
                 countActive = false;
                 isPlaying = true;
