@@ -1,0 +1,17 @@
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/UnityEngine.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/UnityEditor.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Mono.Cecil.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Unity.DataContract.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/obj/Debug/Assembly-CSharp.dll
+/Users/jeffchimney/Documents/School/499 - Capstone/Learning-App-master-2/Memory/obj/Debug/Assembly-CSharp.dll.mdb
